@@ -3,8 +3,8 @@ const { getAll, addNewUser } = require("../controllers/user.controllers");
 
 const router = Router();
 
-router.get("/usuarios", getAll);
-router.post("/usuarios", addNewUser);
+router.get("", getAll);
+router.post("", addNewUser);
 
 module.exports = router;
 

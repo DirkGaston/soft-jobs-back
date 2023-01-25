@@ -1,10 +1,16 @@
-const { verifyCredentials } = require("../models/user.models");
+const { getUserKey } = require("../models/user.models");
 const { generateToken } = require("../helpers/jwt.helpers");
+const { comparePasswords } = require("../helpers/passEncryption.helpers");
+
+require("dotenv").config();
 
 const userLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
-    await verifyCredentials(email, password);
+    const encryptedPass = await getUserKey(email);
+    const passwordMatch = comparePasswords(password, encryptedPass);
+    if (!passwordMatch)
+      throw { code: 401, message: "Email o contraseña es incorrecta" };
     const token = generateToken(email, process.env.SECRET_KEY);
     res.send(token);
   } catch (error) {

@@ -1,10 +1,9 @@
 const { query } = require("../services/db.services");
 const { encryptPassword } = require("../helpers/passEncryption.helpers");
+const { comparePasswords } = require("../helpers/passEncryption.helpers");
 
 const getUsers = async () => {
-  console.log("hekrjeh")
   const queryString = "SELECT * FROM usuarios";
-  console.log(queryString);
   const { rows: users } = await query(queryString);
   return users;
 };
@@ -18,4 +17,19 @@ const registerUser = async (user) => {
   await query(queryString, values);
 };
 
-module.exports = { getUsers, registerUser };
+const getUserKey = async (email) => {
+  const values = [email];
+  const queryString = "SELECT password FROM usuarios WHERE email = $1";
+
+  const {
+    rows: [user],
+    rowCount,
+  } = await query(queryString, values);
+
+  if (!rowCount)
+    throw { code: 401, message: "Email o contraseña es incorrecta" };
+
+  return user.password;
+};
+
+module.exports = { getUsers, registerUser, getUserKey };

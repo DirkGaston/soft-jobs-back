@@ -1,9 +1,7 @@
 const { getUsers, registerUser } = require("../models/user.models");
 
 const getAll = async (req, res) => {
-  console.log("hello")
   try {
-    console.log("hello")
     const users = await getUsers();
     res.json(users);
   } catch (error) {
