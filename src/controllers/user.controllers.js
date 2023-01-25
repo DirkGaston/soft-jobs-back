@@ -1,10 +1,13 @@
-const { getUsers, registerUser } = require("../models/user.models");
+const { decodeToken } = require("../helpers/jwt.helpers");
+const { getUser, registerUser } = require("../models/user.models");
 
 const getAll = async (req, res) => {
-  console.log("hello")
   try {
-    console.log("hello")
-    const users = await getUsers();
+    const tokenJWT = req.header("Authorization")
+    const token = decodeToken(tokenJWT)
+    const {email} = token
+
+    const users = await getUser(email);
     res.json(users);
   } catch (error) {
     res.status(error.code || 500).send(error);
