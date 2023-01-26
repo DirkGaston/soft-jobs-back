@@ -131,7 +131,8 @@ Used dependencies include:
 - [Dotenv](https://www.npmjs.com/package/dotenv) - Zero-dependency module to manage environment variables.
 - [Morgan](https://www.npmjs.com/package/morgan) - HTTP request logger middleware for node.js.
 - [Nodemon](https://www.npmjs.com/package/nodemon) - Automatically restarting the node application when file changes in the directory are detected.
-- [UUID](https://www.npmjs.com/package/uuid) - Generating unique IDs for each song
+- [BCryptJS](https://www.npmjs.com/package/bcryptjs) - Optimized bcrypt in JavaScript with zero dependencies.
+- [JSONWebToken](https://www.npmjs.com/package/jsonwebtoken) - An implementation of JSON Web Tokens.
 - [Yup](https://www.npmjs.com/package/yup) - Schema builder for server-side data validation
 
 ## Contact 📫
