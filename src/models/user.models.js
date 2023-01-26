@@ -1,6 +1,4 @@
 const { query } = require("../services/db.services");
-const { encryptPassword } = require("../helpers/passEncryption.helpers");
-const { comparePasswords } = require("../helpers/passEncryption.helpers");
 
 const getUsers = async () => {
   const queryString = "SELECT * FROM usuarios";
@@ -10,17 +8,14 @@ const getUsers = async () => {
 
 const registerUser = async (user) => {
   let { email, password, rol, lenguaje } = user;
-  const encryptedPass = encryptPassword(password);
-  password = encryptedPass;
-  const values = [email, encryptedPass, rol, lenguaje];
+  const values = [email, password, rol, lenguaje];
   const queryString = "INSERT INTO usuarios VALUES (DEFAULT, $1, $2, $3, $4)";
   await query(queryString, values);
 };
 
-const getUserKey = async (email) => {
+const getUser = async (email) => {
   const values = [email];
-  const queryString = "SELECT password FROM usuarios WHERE email = $1";
-
+  const queryString = "SELECT * FROM usuarios WHERE email = $1";
   const {
     rows: [user],
     rowCount,
@@ -29,7 +24,7 @@ const getUserKey = async (email) => {
   if (!rowCount)
     throw { code: 401, message: "Email o contraseña es incorrecta" };
 
-  return user.password;
+  return user;
 };
 
-module.exports = { getUsers, registerUser, getUserKey };
+module.exports = { getUsers, registerUser, getUser };

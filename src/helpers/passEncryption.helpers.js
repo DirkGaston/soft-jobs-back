@@ -1,11 +1,22 @@
 const bcrypt = require("bcryptjs");
+const { getUser } = require("../models/user.models");
 
 const encryptPassword = (password) => {
   return bcrypt.hashSync(password);
 };
 
-const comparePasswords = (password, encryptedPass) => {
-  return bcrypt.compareSync(password, encryptedPass);
+const checkPassword = async (email, password) => {
+  try {
+    const user = await getUser(email);
+    const encryptedPass = user.password;
+    const passwordMatch = bcrypt.compareSync(password, encryptedPass);
+    if (!passwordMatch) {
+      throw { code: 401, message: "Email or password is incorrect" };
+    }
+    return user;
+  } catch (error) {
+    throw { code: 500, message: "Internal Server Error" };
+  }
 };
 
-module.exports = { encryptPassword, comparePasswords };
+module.exports = { encryptPassword, checkPassword };
