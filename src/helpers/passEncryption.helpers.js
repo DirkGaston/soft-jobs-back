@@ -9,6 +9,7 @@ const checkPassword = async (email, password) => {
   try {
     const user = await getUser(email);
     const encryptedPass = user.password;
+    console.log(password, encryptedPass);
     const passwordMatch = bcrypt.compareSync(password, encryptedPass);
     if (!passwordMatch) {
       throw { code: 401, message: "Email or password is incorrect" };
